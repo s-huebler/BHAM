@@ -36,6 +36,7 @@ measure_cox <- function(y, lp)
   round(unlist(measures), digits=3)
 }
 
+#' @export
 measure.glm <- function(y, y.fitted, family, dispersion = 1)
 {
   if (NROW(y)!=NROW(y.fitted))
