@@ -2,7 +2,7 @@
 % Please edit documentation in R/bamlasso.R
 \name{bamlasso}
 \alias{bamlasso}
-\title{Bauesian Spike-and-Slab Lasso Additive Model}
+\title{Bayesian Spike-and-Slab Lasso Additive Model}
 \usage{
 bamlasso(
   x,
@@ -67,5 +67,5 @@ The mixture prior is only used for grouped predictors. For ungrouped predictors,
 This function returns all outputs from the function \code{\link{glmnet}}, and some other values used in Bayesian hierarchical models.
 }
 \description{
-Bauesian Spike-and-Slab Lasso Additive Model
+Bayesian Spike-and-Slab Lasso Additive Model
 }

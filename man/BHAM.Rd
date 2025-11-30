@@ -2,6 +2,7 @@
 % Please edit documentation in R/BHAM.R
 \docType{package}
 \name{BHAM}
+\alias{BHAM-package}
 \alias{BHAM}
 \title{BHAM: A package to fit Bayesian Hierarchical Additive Models for High Dimensional Application}
 \description{
@@ -15,4 +16,22 @@ select optimal models, summarize bi-level variable selection results,
 and visualize nonlinear effects. The package can facilitate flexible
 modeling of large-scale molecular data, i.e. detecting succeptable
 variables and inforing disease diagnostic and prognostic.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://boyiguo1.github.io/BHAM}
+  \item \url{https://github.com/boyiguo1/BHAM}
+  \item Report bugs at \url{https://github.com/boyiguo1/BHAM/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Boyi Guo \email{boyiguo1992@gmail.com} (\href{https://orcid.org/0000-0003-2950-2349}{ORCID})
+
+Authors:
+\itemize{
+  \item Nengjun Yi \email{nyi@uab.edu}
+}
+
 }

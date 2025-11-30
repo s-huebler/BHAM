@@ -2,7 +2,7 @@
 % Please edit documentation in R/bacoxph.R
 \name{bacoxph}
 \alias{bacoxph}
-\title{Cox additive model}
+\title{Bayesian cox additive model}
 \usage{
 bacoxph(
   formula,
@@ -36,5 +36,5 @@ bacoxph(
 This function returns an object of class "coxph.penal" and "coxph", including all outputs from the function coxph and also results for the additional parameters in the hierarchical models.
 }
 \description{
-Cox additive model
+Bayesian cox additive model
 }
