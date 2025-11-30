@@ -17,7 +17,7 @@
 #'
 #' @examples
 #'
-#' raw_dat <- sim_Bai(100, 5)$dat |> data.frame
+#' raw_dat <- sim_Bai(100, 5)$dat |> data.frame()
 #'
 #' sm_df <- data.frame(
 #'  Var = setdiff(names(raw_dat), "y"),
@@ -38,7 +38,7 @@ make_group <- function(.names,
   data.frame(names = .names, stringsAsFactors = FALSE) |>
     unglue::unglue_unnest(names, "{var}.{part=pen|null}{ind=\\d*}", remove=FALSE) |>
     mutate(ind = as.numeric(.data$ind)) |>
-    {
+    (\(df){
       if(shared_null){
         # stop("Not Implemented yet")
         # TODO: need have this change reflected in the model and also passing onto the var_selection problem
@@ -51,13 +51,13 @@ make_group <- function(.names,
         # stop("Not Implemented yet. Does not support when lienar and non-linear have different theta")
         group_by(., .data$var, .data$part)
       }
-    } |>
-    {
+    })() |>
+    (\(df){
       if(!penalize_null)
         dplyr::filter(., .data$part == "pen")
       else
         .
-    } |>
+    })() |>
     dplyr::summarize(res =  list(.data$names), .groups = "drop") |>
     dplyr::pull(.data$res)
 
