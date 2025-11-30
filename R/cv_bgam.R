@@ -34,9 +34,9 @@ tune.bgam <- function(object, nfolds=10, foldid=NULL, ncv=1, s0 = NULL, verbose=
 
   map_dfr(s0, .f = function(.s0, .mdl, .foldid){
 
-    tmp <- call("cv.bgam", .mdl, s0 = .s0, foldid = .foldid) |> eval
+    tmp <- call("cv.bgam", .mdl, s0 = .s0, foldid = .foldid) |> eval()
     if(ncol(.foldid)==1)
-      tmp$measures |> t() |> data.frame
+      tmp$measures |> t() |> data.frame()
     else {
       mean_row <- tmp$measures[1,]
       names(mean_row) <- paste0(names(mean_row), "_mean")
