@@ -42,7 +42,7 @@ tune.bgam <- function(object, nfolds=10, foldid=NULL, ncv=1, s0 = NULL, verbose=
       names(mean_row) <- paste0(names(mean_row), "_mean")
       sd_row <- tmp$measures[2,]
       names(sd_row) <- paste0(names(sd_row), "_sd")
-      data.frame(c(mean_row, sd_row) |> t)
+      data.frame(c(mean_row, sd_row) |> t())
     }
 
   },
@@ -153,9 +153,9 @@ cv.gam.glm <- function(object, nfolds=10, foldid=NULL, ncv=1,  s0 = NULL, group 
     cat(prior$prior, "\n")
     stop("Does not support the prior family")
   } else if(prior$prior ==  "mde") {
-    prior <- call("mde", s0 = s0) |> eval
+    prior <- call("mde", s0 = s0) |> eval()
   } else{
-    prior <- call("mt", df = prior$df, s0 = s0) |> eval
+    prior <- call("mt", df = prior$df, s0 = s0) |> eval()
   }
 
 
@@ -324,9 +324,9 @@ cv.gam.coxph <- function(object, nfolds=10, foldid=NULL, ncv=1,  s0 = NULL, grou
     cat(prior$prior, "\n")
     stop("Curernt function oes not support this prior family")
   } else if(prior$prior ==  "mde") {
-    prior <- call("mde", s0 = s0) |> eval
+    prior <- call("mde", s0 = s0) |> eval()
   } else{
-    prior <- call("mt", df = prior$df, s0 = s0) |> eval
+    prior <- call("mt", df = prior$df, s0 = s0) |> eval()
   }
 
   if (verbose) cat("Fitting", "ncv*nfolds =", ncv*nfolds, "models: \n")
