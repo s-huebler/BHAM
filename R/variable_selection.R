@@ -78,6 +78,6 @@ bamlasso_var_selection <- function(mdl){
     names() |>
     setdiff("(Intercept)") |>
     gsub("\\d*$", "", .) |>
-    unique |>
+    unique() |>
     generate_var_table()
 }
