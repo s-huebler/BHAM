@@ -82,6 +82,7 @@ update.scale.p.group <- function(prior="mde", df=1, b0, ss, theta, group.vars)
   list(scale=scale, p=p)
 }
 
+#' @export
 update.prior.sd <- function (prior, beta0, prior.scale, prior.df, sd.x, min.x.sd)
 {
   prior.scale <- prior.scale + 1e-04
@@ -98,6 +99,7 @@ update.prior.sd <- function (prior, beta0, prior.scale, prior.df, sd.x, min.x.sd
   prior.sd
 }
 
+#' @export
 update.ptheta.group <- function(group.vars, p, w, b) # group-specific probability
 {
   f <- function(theta, w, p, bb) { # theta ~ beta(1,b)
@@ -117,6 +119,7 @@ update.ptheta.group <- function(group.vars, p, w, b) # group-specific probabilit
   theta
 }
 
+#' @export
 update.ptheta.network <- function(theta, p, w)
 {
   phi <- 2
@@ -133,6 +136,7 @@ update.ptheta.network <- function(theta, p, w)
   theta
 }
 
+#' @export
 update.theta.weights <- function (gvars, theta.weights, inter.hierarchy, inter.parents, p)
 {
   if (is.null(inter.parents))
@@ -157,6 +161,7 @@ update.theta.weights <- function (gvars, theta.weights, inter.hierarchy, inter.p
   theta.weights
 }
 
+#' @export
 auto_scale <- function(x, min.x.sd=1e-04)
 {
   scale <- apply(x, 2, sd)
