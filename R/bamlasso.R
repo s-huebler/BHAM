@@ -1,5 +1,5 @@
 
-#' Bauesian Spike-and-Slab Lasso Additive Model
+#' Bayesian Spike-and-Slab Lasso Additive Model
 #'
 #' @param x input matrix, of dimension nobs x nvars; each row is an observation vector.
 #' @param y response variable. Quantitative for family="gaussian", or family="poisson" (non-negative counts).
@@ -27,6 +27,8 @@
 #'
 #' @return This function returns all outputs from the function \code{\link{glmnet}}, and some other values used in Bayesian hierarchical models.
 #'
+#' @importFrom survival is.Surv
+#'
 #' @export
 #'
 #' @examples
@@ -38,10 +40,16 @@ bamlasso <- function(x, y, family=c("gaussian", "binomial", "poisson", "cox"), o
 {
   # if (!requireNamespace("glmnet")) install.packages("glmnet")
   # require(glmnet)
+
+  # Set up
   start.time <- Sys.time()
   call <- match.call()
+
+  ## Design matrix naming conventions
   x <- as.matrix(x)
   if (is.null(colnames(x))) colnames(x) <- paste("x", 1:ncol(x), sep = "")
+
+  ## Clean + test structure
   nobs <- nrow(x)
   if (NROW(y) != nobs) stop("nobs of 'x' and 'y' are different")
   inc <- apply(cbind(y, x), 1, function(z) !any(is.na(z)))
@@ -59,6 +67,7 @@ bamlasso <- function(x, y, family=c("gaussian", "binomial", "poisson", "cox"), o
   if (!is.null(init) & length(init) != ncol(x)) stop("give an initial value to each coefficient (not intercept)")
   alpha <- alpha[1]
 
+  # Fit model
   f <- bmlasso_spline.fit(x=x, y=y, family=family, offset=offset, epsilon=epsilon, maxit=maxit, init=init,
                           group=group, alpha=alpha, ss=ss, b=b,
                           theta.weights=theta.weights, inter.hierarchy=inter.hierarchy, inter.parents=inter.parents,
@@ -79,15 +88,38 @@ bamlasso <- function(x, y, family=c("gaussian", "binomial", "poisson", "cox"), o
 
 # ************************************************************************************
 
+#' Internal spline fit function for bamlasso
+#'
+#' @param x
+#' @param y
+#' @param family
+#' @param offset
+#' @param epsilon
+#' @param maxit
+#' @param init
+#' @param alpha
+#' @param ss
+#' @param b
+#' @param group
+#' @param theta.weights
+#' @param inter.hierarchy
+#' @param inter.parents
+#' @param Warning
+#'
+#' @returns
+#' @keywords internal
+
 bmlasso_spline.fit <- function(x, y, family="gaussian", offset=NULL, epsilon=1e-04, maxit=50,
                                init=rep(0, ncol(x)), alpha=1, ss=c(0.04, 0.5), b=1, group=NULL,
                                theta.weights=NULL, inter.hierarchy=NULL, inter.parents=NULL,
                                Warning=FALSE)
 {
+  # Laplace scales
   ss <- sort(ss)
   ss <- ifelse(ss <= 0, 0.001, ss)
   prior.scale <- ss[length(ss)]  # used for ungrouped coefficients
 
+  # Prepare design matrix
   if (family == "cox") intercept <- FALSE
   else intercept <- TRUE
   x0 <- x
@@ -133,6 +165,7 @@ bmlasso_spline.fit <- function(x, y, family="gaussian", offset=NULL, epsilon=1e-
   b <- ifelse(b == 0, 0.001, b)
   init <- b
 
+  # Coordinate descent
   devold <- 0
   conv <- FALSE
   for (iter in 1:maxit){
@@ -202,5 +235,5 @@ bmlasso_spline.fit <- function(x, y, family="gaussian", offset=NULL, epsilon=1e-
   return(f)
 }
 
-#*******************************************************************************
+# *******************************************************************************
 

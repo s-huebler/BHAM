@@ -1,4 +1,4 @@
-#' Cox additive model
+#' Bayesian cox additive model
 #'
 #' @param formula,data,weights,subset,na.action,init,control,ties,tt These arguments are the same as in \code{\link{coxph}} in the package survival
 #' @param prior,group,method.coef,verbose,theta.weights,inter.hierarchy,inter.parents These arguments are the same as in \code{\link{bgam}}
@@ -292,6 +292,33 @@ bacoxph <- function (formula, data, weights, subset, na.action, init,
 }
 
 
+#' Internal fit for bacoxph
+#'
+#' @param x
+#' @param y
+#' @param offset
+#' @param weights
+#' @param init
+#' @param strats
+#' @param control
+#' @param ties
+#' @param prior
+#' @param group
+#' @param method.coef
+#' @param prior.mean
+#' @param prior.sd
+#' @param prior.scale
+#' @param prior.df
+#' @param autoscale
+#' @param ss
+#' @param b
+#' @param theta.weights
+#' @param inter.hierarchy
+#' @param inter.parents
+#' @param Warning
+#'
+#' @returns
+#' @keywords internal
 bacoxph.fit <- function(x, y, offset=rep(0, nobs), weights=rep(1, nobs), init=0, strats=NULL,
                        control=coxph.control(eps=1e-04, iter.max=50), ties="efron",
                        prior="t", group=NULL, method.coef=NULL,
@@ -473,6 +500,15 @@ bacoxph.fit <- function(x, y, offset=rep(0, nobs), weights=rep(1, nobs), init=0,
   fit
 }
 
+#' b.ridge
+#'
+#' @param ...
+#' @param theta
+#' @param prior.mean
+#'
+#' @returns
+#' @keywords internal
+#'
 b.ridge <- function (..., theta, prior.mean)
 {
   x <- cbind(...)
@@ -491,8 +527,9 @@ b.ridge <- function (..., theta, prior.mean)
   temp <- list( pfun = pfun, diag = TRUE,
                 cfun = function(parms, iter, history) {
                   list(theta = parms$theta, done = TRUE)},
-                cparm = list(theta = theta), pparm = vars, varname = paste("ridge(",
-                                                                           xname, ")", sep = "") )
+                cparm = list(theta = theta), pparm = vars,
+                varname = paste("ridge(",
+                                xname, ")", sep = "") )
 
   attributes(x) <- c(attributes(x), temp)
 

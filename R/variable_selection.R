@@ -19,10 +19,10 @@ generate_var_table <- function(var_vec){
 
   if(any(non_par_idx)){
     # Non-parametric Variables
-    non_par_df <- var_vec[non_par_idx] %>%
+    non_par_df <- var_vec[non_par_idx] |>
       # Form 3-by-2 table
-      unglue::unglue_data( "{var}.{part=pen|null}") %>%
-      mutate(ext = TRUE) %>%
+      unglue::unglue_data( "{var}.{part=pen|null}") |>
+      mutate(ext = TRUE) |>
       reshape(
         direction = "wide",
         idvar = "var", timevar = "part",
@@ -31,18 +31,18 @@ generate_var_table <- function(var_vec){
 
     if(ncol(non_par_df)!=3){
       if(!("ext.null" %in% names(non_par_df)))
-        non_par_df <- non_par_df %>% mutate( ext.null = NA)
+        non_par_df <- non_par_df |> mutate( ext.null = NA)
       if(!("ext.pen" %in% names(non_par_df)))
-        non_par_df <- non_par_df %>% mutate( ext.pen = NA)
+        non_par_df <- non_par_df |> mutate( ext.pen = NA)
     }
 
     # Rename Tablenon_par_df
-    non_par_df <- non_par_df %>%
+    non_par_df <- non_par_df |>
       transmute(
         Variable = var,
         Linear = replace(.data$ext.null, is.na(.data$ext.null), FALSE),
         Nonlinear = replace(.data$ext.pen, is.na(.data$ext.pen), FALSE)
-      ) #%>%
+      ) #|>
     # Analytically Remove Functions without Linear components
     #filter(.data$Linear == TRUE)
   } else {
@@ -74,10 +74,10 @@ bamlasso_var_selection <- function(mdl){
   # Find non-zero coefficients
   ## Remove Intercept, and trailing index for splines
   ## Remove trailing index for splines and keep unique spline components
-  mdl$coefficients[which(mdl$coefficients!=0)] %>%
-    names() %>%
-    setdiff("(Intercept)") %>%
-    gsub("\\d*$", "", .) %>%
-    unique %>%
+  mdl$coefficients[which(mdl$coefficients!=0)] |>
+    names() |>
+    setdiff("(Intercept)") |>
+    gsub("\\d*$", "", .) |>
+    unique |>
     generate_var_table()
 }

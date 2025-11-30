@@ -1,3 +1,12 @@
+#' Calculates the EDF
+#'
+#' @param object
+#' @param vars
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 calculate_EDF <- function(object, vars = 1:length(object$coefficients)){
   x <- stats::model.matrix(object)[, vars, drop = FALSE]
 
