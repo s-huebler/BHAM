@@ -11,8 +11,8 @@
 #' @import purrr
 #'
 #' @examples
-#' raw_dat <- sim_Bai(100, 5)$dat |> data.frame
-#' test_dat <- sim_Bai(100, 5)$dat |> data.frame
+#' raw_dat <- sim_Bai(100, 5)$dat |> data.frame()
+#' test_dat <- sim_Bai(100, 5)$dat |> data.frame()
 #'
 #' sm_df <- data.frame(
 #'  Var = setdiff(names(raw_dat), "y"),
@@ -30,7 +30,7 @@ make_predict_dat <- function(Smooth, dat){
           .f= function(sm, .dat){
             ret <- mgcv::PredictMat(sm, data = .dat)
             colnames(ret) <- create_smooth_name(sm)
-            ret |> data.frame
+            ret |> data.frame()
           },
           .dat = dat
   )
