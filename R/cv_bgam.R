@@ -273,7 +273,7 @@ cv.gam.lasso <- function(object, nfolds=10, foldid=NULL, ncv=1,  s0 = NULL, grou
     }
     if (any(class(object) %in% "COXPH"))
       # stop("not implmented yet")
-      measures <- measure.cox(y.obj, lp)
+      measures <- measure_cox(y.obj, lp)
 
     measures0 <- rbind(measures0, measures)
     lp0 <- cbind(lp0, lp)
@@ -352,7 +352,7 @@ cv.gam.coxph <- function(object, nfolds=10, foldid=NULL, ncv=1,  s0 = NULL, grou
       }
     } # End inner for loop
 
-    measures <- measure.cox(y.obj, lp)
+    measures <- measure_cox(y.obj, lp)
     measures0 <- rbind(measures0, measures)
     lp0 <- cbind(lp0, lp)
   }   # End outer for loop
