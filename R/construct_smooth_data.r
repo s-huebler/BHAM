@@ -53,8 +53,8 @@ construct_smooth_data <- function(sm_df, dat){
     raw_sm <- (
       fml_df[i] |>
         rlang::parse_expr() |>
-        eval() |>
-        smoothCon(object = _, data = dat,
+        eval() %>%
+        smoothCon(object = ., data = dat,
                   scale.penalty = TRUE,
                   absorb.cons = TRUE,
                   null.space.penalty = TRUE,
