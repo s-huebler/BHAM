@@ -76,7 +76,7 @@ bamlasso_var_selection <- function(mdl){
   ## Remove trailing index for splines and keep unique spline components
   mdl$coefficients[which(mdl$coefficients!=0)] |>
     names() |>
-    setdiff("(Intercept)") |>
+    setdiff("(Intercept)") %>%
     gsub("\\d*$", "", .) |>
     unique() |>
     generate_var_table()
